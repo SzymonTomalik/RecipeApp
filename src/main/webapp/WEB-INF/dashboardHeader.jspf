@@ -1,0 +1,36 @@
+<%@ page import="pl.coderslab.dao.AdminsDao" %>
+<%@ page import="pl.coderslab.model.Admins" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<header class="page-header">
+    <nav class="navbar navbar-expand-lg justify-content-between">
+        <a href="/" class="navbar-brand main-logo main-logo-smaller">
+            Zaplanuj <span>Jedzonko</span>
+        </a>
+        <div class="d-flex justify-content-around">
+            <h4 class="text-light mr-3"><%
+                HttpSession sessionName = request.getSession();
+                AdminsDao adminsDao = new AdminsDao();
+                Admins admin = adminsDao.read((Integer) sessionName.getAttribute("loggedUser"));
+                request.setAttribute("admin", admin);
+                int superadmin = admin.getSuperadmin();
+                request.setAttribute("superadmin", superadmin);
+            %>${admin.firstName}</h4>
+
+            <c:choose>
+                <c:when test="${superadmin==1}">
+                    <a href="/logout">
+                        <div class="circle-div text-center" style="border-color: #007bff; background-color: #EAEAEA"><i class="fas fa-user icon-user"
+                                                                          style="color: #007bff"></i></div>
+                    </a>
+                </c:when>
+                <c:otherwise>
+                    <a href="/logout">
+                        <div onclick="" class="circle-div text-center"><i class="fas fa-user icon-user"></i></div>
+                    </a>
+
+                </c:otherwise>
+            </c:choose>
+        </div>
+    </nav>
+</header>
